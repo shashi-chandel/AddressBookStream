@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -85,6 +86,12 @@ public class AddressBookMain {
 		System.out.println("Address Book added");
 	}
 
+	/**
+	 * UC7
+	 * @param first
+	 * @param last
+	 * @return
+	 */
 	public static boolean checkForDuplicate(String first, String last) {
 		if (addressList.stream().anyMatch(obj -> obj.getFirstName().equals(first))
 				&& addressList.stream().anyMatch(obj -> obj.getLastName().equals(last))) {
@@ -94,12 +101,28 @@ public class AddressBookMain {
 			return false;
 	}
 
+	/**
+	 * UC8
+	 * @param searchPerson
+	 * @param searchChoice
+	 * @param cityOrState
+	 */
+	private void searchPersonAcrossCityState(String searchPerson,int searchChoice, String cityOrState) {
+		for (Map.Entry<String, List<Contact>> entry : addressBookMap.entrySet()) {
+			List<Contact> list = entry.getValue();
+			if (searchChoice == 1)
+				list.stream().filter(obj -> ((obj.getCity().equals(cityOrState))&&(obj.getFirstName().equals(searchPerson)))).forEach(System.out::println);
+			else if(searchChoice == 2)
+				list.stream().filter(obj -> ((obj.getState().equals(cityOrState))&&(obj.getFirstName().equals(searchPerson)))).forEach(System.out::println);
+		}
+	}
+	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		AddressBookMain addressObj = new AddressBookMain();
 		int choice = 0;
 
-		while (choice != 6) {
+		while (choice != 7) {
 			if (addressObj.addressBookMap.isEmpty()) {
 				System.out.println("Please add an address book to begin");
 				System.out.println("Enter the name of address book that u want to add:");
@@ -118,7 +141,7 @@ public class AddressBookMain {
 			}
 
 			System.out.println(
-					"Enter a choice: \n 1)Add a new contact \n 2)Edit a contact \n 3)Delete Contact \n 4)Add Address Book \n 5)View Address Book Contacts \n 6)Exit");
+					"Enter a choice: \n 1)Add a new contact \n 2)Edit a contact \n 3)Delete Contact \n 4)Add Address Book \n 5)View Address Book Contacts \n 6)Search person in a city or state across the multiple Address Books \n 7Exit");
 			choice = Integer.parseInt(sc.nextLine());
 			switch (choice) {
 			case 1: {
@@ -181,6 +204,15 @@ public class AddressBookMain {
 				break;
 			}
 			case 6: {
+				System.out.println("Enter first name of person to search");
+				String searchPerson = sc.nextLine();
+				System.out.println("Enter the name of city or state");
+				String cityOrState = sc.nextLine();
+				System.out.println("Enter 1 if you entered name of a city \nEnter 2 if you entered name of a state");
+				int searchChoice = Integer.parseInt(sc.nextLine());
+				addressObj.searchPersonAcrossCityState(searchPerson,searchChoice, cityOrState);
+			}
+			case 7: {
 				System.out.println("Thank you for using the application");
 			}
 			}
