@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class AddressBookMain {
 	Scanner sc = new Scanner(System.in);
-	private List<Contact> addressList = new ArrayList<Contact>();
+	private static List<Contact> addressList = new ArrayList<Contact>();
 	HashMap<String, List<Contact>> addressBookMap = new HashMap<String, List<Contact>>();
 
 	/**
@@ -76,6 +76,7 @@ public class AddressBookMain {
 
 	/**
 	 * UC6
+	 * 
 	 * @param listName
 	 */
 	public void addAddressList(String listName) {
@@ -83,7 +84,16 @@ public class AddressBookMain {
 		addressBookMap.put(listName, newAddressList);
 		System.out.println("Address Book added");
 	}
-	
+
+	public static boolean checkForDuplicate(String first, String last) {
+		if (addressList.stream().anyMatch(obj -> obj.getFirstName().equals(first))
+				&& addressList.stream().anyMatch(obj -> obj.getLastName().equals(last))) {
+			System.out.println("This contact already exists, try again!!");
+			return true;
+		} else
+			return false;
+	}
+
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		AddressBookMain addressObj = new AddressBookMain();
@@ -96,7 +106,7 @@ public class AddressBookMain {
 				String listName = sc.nextLine();
 				addressObj.addAddressList(listName);
 			}
-			
+
 			System.out.println("Enter the name of the address book you want to access");
 			String listName = sc.nextLine();
 			if (addressObj.addressBookMap.containsKey(listName)) {
@@ -106,7 +116,7 @@ public class AddressBookMain {
 			else {
 				System.out.println("Address list with name " + listName + " not present. Please add it first.");
 			}
-			
+
 			System.out.println(
 					"Enter a choice: \n 1)Add a new contact \n 2)Edit a contact \n 3)Delete Contact \n 4)Add Address Book \n 5)View Address Book Contacts \n 6)Exit");
 			choice = Integer.parseInt(sc.nextLine());
@@ -117,6 +127,8 @@ public class AddressBookMain {
 				String firstName = sc.nextLine();
 				System.out.println("Last Name:");
 				String lastName = sc.nextLine();
+				if (checkForDuplicate(firstName, lastName))
+					continue;
 				System.out.println("Address:");
 				String address = sc.nextLine();
 				System.out.println("City:");
@@ -129,14 +141,14 @@ public class AddressBookMain {
 				String phoneNo = sc.nextLine();
 				System.out.println("Email");
 				String email = sc.nextLine();
-				
-				Contact contactObj = new Contact(firstName, lastName, address, city, state, zip, phoneNo,
-						email);
+
+				Contact contactObj = new Contact(firstName, lastName, address, city, state, zip, phoneNo, email);
 				addressObj.addContact(contactObj);
 				break;
 			}
 			case 2: {
-				System.out.println("Enter first name, press Enter key, and then enter last name of person to edit details:");
+				System.out.println(
+						"Enter first name, press Enter key, and then enter last name of person to edit details:");
 				String firstName = sc.nextLine();
 				String lastName = sc.nextLine();
 				boolean contactFound = addressObj.editDetails(firstName, lastName);
@@ -147,7 +159,8 @@ public class AddressBookMain {
 				break;
 			}
 			case 3: {
-				System.out.println("Enter first name, press Enter key, and then enter last name of person to delete data");
+				System.out.println(
+						"Enter first name, press Enter key, and then enter last name of person to delete data");
 				String firstName = sc.nextLine();
 				String lastName = sc.nextLine();
 				boolean contactFound = addressObj.removeDetails(firstName, lastName);
