@@ -1,6 +1,7 @@
 package com.capgemini.javastream;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -97,8 +98,7 @@ public class AddressBookMain {
 	 * @return
 	 */
 	public static boolean checkForDuplicate(String first, String last) {
-		if (addressList.stream().anyMatch(obj -> obj.getFirstName().equals(first))
-				&& addressList.stream().anyMatch(obj -> obj.getLastName().equals(last))) {
+		if (addressList.stream().anyMatch(obj -> (obj.getFirstName() + obj.getFirstName()).equals(first + last))) {
 			System.out.println("This contact already exists, try again!!");
 			return true;
 		} else
@@ -149,6 +149,13 @@ public class AddressBookMain {
 		}
 	}
 
+	/**
+	 * UC10
+	 * 
+	 * @param cityOrState
+	 * @param searchChoice
+	 * @return
+	 */
 	private long getCountByCityState(String cityOrState, int searchChoice) {
 		long count = 0;
 		for (Map.Entry<String, List<Contact>> entry : addressBookMap.entrySet()) {
@@ -159,6 +166,11 @@ public class AddressBookMain {
 				count += list.stream().filter(obj -> obj.getState().equals(cityOrState)).count();
 		}
 		return count;
+	}
+
+	private List<Contact> sortAddressBookByName(List<Contact> sortList) {
+		Collections.sort(sortList, new Contact());
+		return sortList;
 	}
 
 	public static void main(String[] args) {
@@ -187,7 +199,7 @@ public class AddressBookMain {
 			System.out.println(
 					"Enter a choice: \n 1)Add a new contact \n 2)Edit a contact \n 3)Delete Contact \n 4)Add Address Book \n 5)View current Address Book Contacts"
 							+ " \n 6)Search person in a city or state across the multiple Address Books \n 7)View persons by city or state \n "
-							+ "8)Get count of contact persons by city or state \n 9)Exit");
+							+ "8)Get count of contact persons by city or state \n 9)Sort entries by name in current address book \n 10)Exit");
 			choice = Integer.parseInt(sc.nextLine());
 			choice = Integer.parseInt(sc.nextLine());
 			switch (choice) {
@@ -278,6 +290,12 @@ public class AddressBookMain {
 				break;
 			}
 			case 9: {
+				List<Contact> sortedEntriesList = addressObj.sortAddressBookByName(addressObj.addressList);
+				System.out.println("Entries sorted in current address book. Sorted Address Book Entries:");
+				System.out.println(sortedEntriesList);
+				break;
+			}
+			case 10: {
 				System.out.println("Thank you for using the application");
 			}
 			}

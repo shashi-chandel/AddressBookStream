@@ -1,6 +1,8 @@
 package com.capgemini.javastream;
 
-public class Contact {
+import java.util.Comparator;
+
+public class Contact implements Comparator<Contact> {
 
 	private String firstName;
 	private String lastName;
@@ -10,6 +12,10 @@ public class Contact {
 	private String zip;
 	private String phoneNo;
 	private String email;
+
+	public Contact() {
+
+	}
 
 	public Contact(String firstName, String lastName, String address, String city, String state, String zip,
 			String phoneNo, String email) {
@@ -90,9 +96,11 @@ public class Contact {
 
 	@Override
 	public String toString() {
-		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city="
-				+ city + ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
+		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
+				+ ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
+	}
+
+	public int compare(Contact obj1, Contact obj2) {
+		return (obj1.getFirstName() + obj1.getLastName()).compareTo(obj2.getFirstName() + obj2.getLastName());
 	}
 }
-
-
