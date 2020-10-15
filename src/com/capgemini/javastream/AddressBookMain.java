@@ -1,101 +1,41 @@
 package com.capgemini.javastream;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class AddressBookMain {
-	public static void main(String[] args) {
-		System.out.println("Welcome to Address Book Program!!");
+	private List<Contact> addressList = new ArrayList<Contact>();
+
+	public void addContact(Contact contactObj) {
+		addressList.add(contactObj);
+		System.out.println("Contact Added.");
+		System.out.println(contactObj);
 	}
-	public class Contact {
-		
-		private String firstName;
-		private String lastName;
-		private String address;
-		private String city;
-		private String state;
-		private String zip;
-		private String phoneNo;
-		private String email;
-		
-		public Contact(String firstName, String lastName, String address, String city, String state, String zip,
-				String phoneNo, String email) {
-			super();
-			this.firstName = firstName;
-			this.lastName = lastName;
-			this.address = address;
-			this.city = city;
-			this.state = state;
-			this.zip = zip;
-			this.phoneNo = phoneNo;
-			this.email = email;
-		}
 
-		public String getFirstName() {
-			return firstName;
-		}
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		AddressBookMain addressObj = new AddressBookMain();
 
-		public void setFirstName(String firstName) {
-			this.firstName = firstName;
-		}
+		System.out.println("Add Person Details:");
+		System.out.println("First Name:");
+		String firstName = sc.nextLine();
+		System.out.println("Last Name:");
+		String lastName = sc.nextLine();
+		System.out.println("Address:");
+		String address = sc.nextLine();
+		System.out.println("City:");
+		String city = sc.nextLine();
+		System.out.println("State:");
+		String state = sc.nextLine();
+		System.out.println("Zip:");
+		String zip = sc.nextLine();
+		System.out.println("Phone no:");
+		String phoneNo = sc.nextLine();
+		System.out.println("Email");
+		String email = sc.nextLine();
 
-		public String getLastName() {
-			return lastName;
-		}
-
-		public void setLastName(String lastName) {
-			this.lastName = lastName;
-		}
-
-		public String getAddress() {
-			return address;
-		}
-
-		public void setAddress(String address) {
-			this.address = address;
-		}
-
-		public String getCity() {
-			return city;
-		}
-
-		public void setCity(String city) {
-			this.city = city;
-		}
-
-		public String getState() {
-			return state;
-		}
-
-		public void setState(String state) {
-			this.state = state;
-		}
-
-		public String getZip() {
-			return zip;
-		}
-
-		public void setZip(String zip) {
-			this.zip = zip;
-		}
-
-		public String getPhoneNo() {
-			return phoneNo;
-		}
-
-		public void setPhoneNo(String phoneNo) {
-			this.phoneNo = phoneNo;
-		}
-
-		public String getEmail() {
-			return email;
-		}
-
-		public void setEmail(String email) {
-			this.email = email;
-		}
-		
-		@Override
-		public String toString() {
-			return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city="
-					+ city + ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
-		}
+		Contact contactObj = new Contact(firstName, lastName, address, city, state, zip, phoneNo, email);
+		addressObj.addContact(contactObj);
 	}
 }
