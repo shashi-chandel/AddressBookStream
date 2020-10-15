@@ -2,7 +2,7 @@ package com.capgemini.javastream;
 
 import java.util.Comparator;
 
-public class Contact implements Comparator<Contact> {
+public class Contact {
 
 	private String firstName;
 	private String lastName;
@@ -98,9 +98,5 @@ public class Contact implements Comparator<Contact> {
 	public String toString() {
 		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
 				+ ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
-	}
-
-	public int compare(Contact obj1, Contact obj2) {
-		return (obj1.getFirstName() + obj1.getLastName()).compareTo(obj2.getFirstName() + obj2.getLastName());
 	}
 }

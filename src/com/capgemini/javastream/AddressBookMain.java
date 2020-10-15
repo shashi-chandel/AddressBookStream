@@ -168,8 +168,41 @@ public class AddressBookMain {
 		return count;
 	}
 
+	/**
+	 * UC11
+	 * 
+	 * @param sortList
+	 * @return
+	 */
 	private List<Contact> sortAddressBookByName(List<Contact> sortList) {
-		Collections.sort(sortList, new Contact());
+		SortByChoice sortByChoice = new SortByChoice(SortByChoice.choice.NAME);
+		Collections.sort(sortList, sortByChoice);
+		return sortList;
+	}
+
+	/**
+	 * UC12
+	 * 
+	 * @param sortChoice
+	 * @param sortList
+	 * @return
+	 */
+	private List<Contact> sortAddressBookByChoice(int sortChoice, List<Contact> sortList) {
+		SortByChoice sortByChoice = null;
+		switch (sortChoice) {
+		case 1:
+			sortByChoice = new SortByChoice(SortByChoice.choice.CITY);
+			break;
+		case 2:
+			sortByChoice = new SortByChoice(SortByChoice.choice.STATE);
+			break;
+		case 3:
+			sortByChoice = new SortByChoice(SortByChoice.choice.ZIP);
+			break;
+		default:
+			System.out.println("Invalid Choice");
+		}
+		Collections.sort(sortList, sortByChoice);
 		return sortList;
 	}
 
@@ -199,8 +232,8 @@ public class AddressBookMain {
 			System.out.println(
 					"Enter a choice: \n 1)Add a new contact \n 2)Edit a contact \n 3)Delete Contact \n 4)Add Address Book \n 5)View current Address Book Contacts"
 							+ " \n 6)Search person in a city or state across the multiple Address Books \n 7)View persons by city or state \n "
-							+ "8)Get count of contact persons by city or state \n 9)Sort entries by name in current address book \n 10)Exit");
-			choice = Integer.parseInt(sc.nextLine());
+							+ "8)Get count of contact persons by city or state \n 9)Sort entries by name in current address book"
+							+ "\n 10)Sort entries in current address book by city, state or zip \n 11)Exit");
 			choice = Integer.parseInt(sc.nextLine());
 			switch (choice) {
 			case 1: {
@@ -296,6 +329,14 @@ public class AddressBookMain {
 				break;
 			}
 			case 10: {
+				System.out.println("Enter 1 to sort by city \nEnter 2 to sort by state \nEnter 3 to sort by zipcode");
+				int sortChoice = Integer.parseInt(sc.nextLine());
+				List<Contact> sortedEntriesList = addressObj.sortAddressBookByChoice(sortChoice,
+						addressObj.addressList);
+				System.out.println(sortedEntriesList);
+				break;
+			}
+			case 11: {
 				System.out.println("Thank you for using the application");
 			}
 			}
