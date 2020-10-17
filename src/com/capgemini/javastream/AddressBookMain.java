@@ -9,12 +9,17 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookMain {
-	Scanner sc = new Scanner(System.in);
+	Scanner sc = new Scanner(System.in);   
+	AddressBookIOService addressBookIOService = new AddressBookIOService();
 	private static List<Contact> addressList = new ArrayList<Contact>();
 	HashMap<String, List<Contact>> addressBookMap = new HashMap<String, List<Contact>>();
 	HashMap<Contact, String> personCityMap = new HashMap<Contact, String>();
 	HashMap<Contact, String> personStateMap = new HashMap<Contact, String>();
-
+	private String addressListName;
+	
+	private void init() {
+		addressBookMap = addressBookIOService.getAddressBookMap();
+	}
 	/**
 	 * UC2
 	 * 
@@ -211,7 +216,7 @@ public class AddressBookMain {
 		AddressBookMain addressObj = new AddressBookMain();
 		int choice = 0;
 
-		while (choice != 9) {
+		while (choice != 12) {
 			if (addressObj.addressBookMap.isEmpty()) {
 				System.out.println("Please add an address book to begin");
 				System.out.println("Enter the name of address book that u want to add:");
@@ -233,7 +238,7 @@ public class AddressBookMain {
 					"Enter a choice: \n 1)Add a new contact \n 2)Edit a contact \n 3)Delete Contact \n 4)Add Address Book \n 5)View current Address Book Contacts"
 							+ " \n 6)Search person in a city or state across the multiple Address Books \n 7)View persons by city or state \n "
 							+ "8)Get count of contact persons by city or state \n 9)Sort entries by name in current address book"
-							+ "\n 10)Sort entries in current address book by city, state or zip \n 11)Exit");
+							+ "\n 10)Sort entries in current address book by city, state or zip \n 11)View all contacts from file \n 12)Exit");
 			choice = Integer.parseInt(sc.nextLine());
 			switch (choice) {
 			case 1: {
@@ -337,6 +342,10 @@ public class AddressBookMain {
 				break;
 			}
 			case 11: {
+				addressObj.addressBookIOService.print();
+				break;
+			}
+			case 12: {
 				System.out.println("Thank you for using the application");
 			}
 			}
