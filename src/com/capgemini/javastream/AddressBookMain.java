@@ -10,16 +10,13 @@ import java.util.Scanner;
 
 public class AddressBookMain {
 	Scanner sc = new Scanner(System.in);   
-	AddressBookIOService addressBookIOService = new AddressBookIOService();
+	public static AddressBookIOService addressBookIOService = new AddressBookIOService();
 	private static List<Contact> addressList = new ArrayList<Contact>();
-	HashMap<String, List<Contact>> addressBookMap = new HashMap<String, List<Contact>>();
+	private static HashMap<String, List<Contact>> addressBookMap = new HashMap<String, List<Contact>>();
 	HashMap<Contact, String> personCityMap = new HashMap<Contact, String>();
 	HashMap<Contact, String> personStateMap = new HashMap<Contact, String>();
 	private String addressListName;
 	
-	private void init() {
-		addressBookMap = addressBookIOService.getAddressBookMap();
-	}
 	/**
 	 * UC2
 	 * 
@@ -342,6 +339,7 @@ public class AddressBookMain {
 				break;
 			}
 			case 11: {
+				addressBookMap = addressBookIOService.getAddressBookMap();
 				addressObj.addressBookIOService.print();
 				break;
 			}

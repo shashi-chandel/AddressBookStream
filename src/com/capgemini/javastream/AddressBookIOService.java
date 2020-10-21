@@ -2,7 +2,6 @@ package com.capgemini.javastream;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,9 +44,9 @@ public class AddressBookIOService {
 							Contact contact = new Contact(firstName, lastName, address, city, state, zip, phone, email);
 							contactList.add(contact);
 						}
-					});
+					    });
 					String fileName = file.toAbsolutePath().toString();
-					addressBookMap.put(fileName.substring(0, 8), contactList);
+					addressBookMap.put(fileName, contactList);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -62,7 +61,7 @@ public class AddressBookIOService {
 	public void print() {
 		addressBookMap.entrySet().stream().map(entry -> entry.getValue()).forEach(System.out::println);
 	}
-
+	
 	public static String getHOME() {
 		return HOME;
 	}
