@@ -2,6 +2,7 @@ package com.capgemini.javastream;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +57,35 @@ public class AddressBookIOService {
 			e1.printStackTrace();
 		}
 
+	}
+	
+	public boolean addAddressBook(String bookName) {
+		Path addressBooks = Paths.get(HOME + "/" + bookName + ".txt");
+		if (Files.notExists(Paths.get(HOME + "/" + bookName + ".txt"))) {
+			try {
+				Files.createFile(addressBooks);
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public void writeContactToAddressBook(Contact contactObj, String addressBookName) {
+		StringBuffer contactsBuffer = new StringBuffer();
+		String contactData = contactObj.toString();
+		try {
+			Files.lines(Paths.get(HOME + "/" + addressBookName + ".txt")).forEach(lines -> {
+				String data = lines.toString().concat("\n");
+				contactsBuffer.append(data);
+			});
+			contactsBuffer.append(contactData);
+			Files.write(Paths.get(HOME + "/" + addressBookName + ".txt"), contactsBuffer.toString().getBytes());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	public void print() {

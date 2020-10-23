@@ -9,23 +9,40 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookMain {
-	Scanner sc = new Scanner(System.in);   
+	Scanner sc = new Scanner(System.in);
 	public static AddressBookIOService addressBookIOService = new AddressBookIOService();
 	private static List<Contact> addressList = new ArrayList<Contact>();
 	private static HashMap<String, List<Contact>> addressBookMap = new HashMap<String, List<Contact>>();
 	HashMap<Contact, String> personCityMap = new HashMap<Contact, String>();
 	HashMap<Contact, String> personStateMap = new HashMap<Contact, String>();
 	private String addressListName;
-	
+
 	/**
 	 * UC2
 	 * 
 	 * @param contactObj
 	 */
-	public boolean addContact(Contact contactObj) {
-		addressList.add(contactObj);
-		System.out.println("Contact Added.\n" + contactObj);
-		return true;
+	public boolean addContact(Contact contactObj, int choiceOfAdding) {
+		boolean isPresent = addressList.stream().anyMatch(obj -> obj.equals(contactObj));
+		if (isPresent == false) {
+			switch (choiceOfAdding) {
+			case 1:
+				addressList.add(contactObj);
+				System.out.println("Contact added");
+				break;
+			case 2:
+				addressList.add(contactObj);
+				new AddressBookIOService().writeContactToAddressBook(contactObj, addressListName);
+				System.out.println("Contact added");
+				break;
+			default:
+				System.out.println("Invalid Entry");
+			}
+			return true;
+		} else {
+			System.out.println("Contact already present. Duplication not allowed");
+			return false;
+		}
 	}
 
 	/**
@@ -89,7 +106,12 @@ public class AddressBookMain {
 	public void addAddressList(String listName) {
 		List<Contact> newAddressList = new LinkedList<Contact>();
 		addressBookMap.put(listName, newAddressList);
-		System.out.println("Address Book added");
+		boolean isAddressBookAdded = new AddressBookIOService().addAddressBook(listName);
+		if (isAddressBookAdded)
+			System.out.println("Address book added");
+		else
+			System.out.println("Address book not added. Might already be present");
+		addressListName = listName;
 	}
 
 	/**
@@ -260,7 +282,9 @@ public class AddressBookMain {
 				String email = sc.nextLine();
 
 				Contact contactObj = new Contact(firstName, lastName, address, city, state, zip, phoneNo, email);
-				boolean contactIsAdded = addressObj.addContact(contactObj);
+				System.out.println("\n 1. Adding in addresslist to console \n 2. Adding in addresslist to file");
+				int choiceOfAddingAddressTo = sc.nextInt();
+				boolean contactIsAdded = addressObj.addContact(contactObj, choiceOfAddingAddressTo);
 				addressObj.addToDictionary(contactIsAdded, contactObj);
 				break;
 			}
@@ -306,6 +330,7 @@ public class AddressBookMain {
 				System.out.println("Enter 1 if you entered name of a city \nEnter 2 if you entered name of a state");
 				int searchChoice = Integer.parseInt(sc.nextLine());
 				addressObj.searchPersonAcrossCityState(searchPerson, searchChoice, cityOrState);
+				break;
 			}
 			case 7: {
 				System.out.println("Enter the name of city or state");
